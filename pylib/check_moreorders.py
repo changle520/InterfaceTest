@@ -7,7 +7,7 @@ from common.operationxml import stringtoXML,get_allEle_change
 
 
 def moreorders(xlspath,sheetname,testno,servicecode,col):
-    '''连续发送请求'''
+    '''连续发送请求,servicecode一样'''
 
     #获取xml字符串
     rxls = OperationdXls(xlspath,sheetname)
@@ -20,8 +20,27 @@ def moreorders(xlspath,sheetname,testno,servicecode,col):
         # print(xml)
         # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         response=interfaceApi(servicecode,xml)
+
     return response.text
 
+def moreorders_havedel(xlspath,sheetname,testno,servicecode,col):
+    '''连续发送请求,请求中有删除接口,此方法用于用例:GYSFV4_OLD_013'''
+
+    #获取xml字符串
+    rxls = OperationdXls(xlspath,sheetname)
+    xml = rxls.get_xml(testno,col)
+    xml_list=xml.split(",")   #将xml按逗号分隔
+
+    #发送请求
+    for i in range (len(xml_list)):
+
+        # print(xml)
+        if i==1:
+            response = interfaceApi('CANCEL_GROUP_DRUG_V4', xml_list[i])  #当循环第二次的时候将servicecode赋值：'CANCEL_GROUP_DRUG_V4'
+        else:
+            response=interfaceApi(servicecode,xml_list[i])
+
+    return response.text
 
 
 def get_drugnames(response_xml):
@@ -31,7 +50,7 @@ def get_drugnames(response_xml):
     return test_rlt
 
 if __name__ == '__main__':
-    xml=moreorders('../data/统一接口自动化测试用例.xls', '4.0_old', 'GYSFV4_OLD_012', 'GY_SF_V4', 7)
+    xml=moreorders('../data/统一接口自动化测试用例.xls', '4.0_old', 'GYSFV4_OLD_018', 'GY_SF_V4', 7)
     print(xml)
     print(get_drugnames(xml))
     # print(moreorders('../data/统一接口自动化测试用例.xls', '4.0_old', 'GYSFV4_OLD_011','GY_SF_V4',7))
