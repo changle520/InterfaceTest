@@ -47,6 +47,7 @@ def update_cfgvalue(id,key,value):
     print('配置项修改成功')
     # print(response.json())
 
+
 def interfaceApi(serviceCode,xml,post_type=1):
     '''
     对外统一接口api
@@ -62,12 +63,34 @@ def interfaceApi(serviceCode,xml,post_type=1):
     response=requests.post(url,params=params,data=data,headers=headers,cookies=login())
     return response
 
+def startAuditWork():
+    '''开始审方,可以接受审方任务'''
+    url = f"http://{ip}:{system_port}/{startAudit_api}"
+    response=requests.get(url,cookies=login())
+    return response.json()
+
+def getAuditIptList(patientid=""):
+    '''
+    获取审方任务列表
+    :param patientid:
+    :return:
+    '''
+    try:
+        url=f'http://{ip}:{system_port}/{sfAuditList_api}'
+        data={'patientId':patientid}
+        response=requests.post(url,json=data,cookies=login())
+        return response.json()
+    except Exception as e:
+        print(e)
+
 if __name__ == '__main__':
     # login()
-    update_cfgvalue(27,"commons_old_version_interface_enable",'false')
+    # update_cfgvalue(27,"commons_old_version_interface_enable",'false')
     # rxls = OperationdXls(r"C:\Users\ipharmacare\interface\InterfaceTest\data\统一接口自动化测试用例.xls")
     # rxls.read_xls('4.0_old')
     # xml = rxls.get_cellvalue(2, 7)
     # xml_split = xml.split(',')
     # interfaceApi(service_code[0],xml_split[0])
+    print(startAuditWork())
+    print(getAuditIptList()['data']['engineInfos'][0]['patientId'])
 

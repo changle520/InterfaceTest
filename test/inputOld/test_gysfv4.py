@@ -68,18 +68,32 @@ class Test_CheckFile():
         self.order_status = [v for k, v in self.test_rlt if k == 'order_status']
         assert self.order_status==[0]
 
+
+class Test_checksftasklist():
+    '''校验审方的任务列表'''
+    type = {'opt': 'REAL_OPT', 'ipt': 'REAL_IPT'}
+    service_code = service_code[0]
+
+
+    @pytest.mark.parametrize("update_config_one", [{'id': cfg_id[2], 'key': cfg_key[2], 'value': cfg_value[0]}],
+                             indirect=True)
+    def test_GYSFV4_OLD_007(self,update_config_one):
+        self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_007', self.service_code, 7)
+        print(self.response_xml)
+
 class Test_check_threerequests():
     '''校验第3次请求返回的结果是否正确'''
 
     type = {'opt': 'REAL_OPT', 'ipt': 'REAL_IPT'}
     service_code = service_code[0]
 
-    @pytest.fixture(autouse=True)   #测试用例级别的初始化方法，每个用例都会执行一次
-    def update_config(self):
-        '''初始化：更改配置项'''
-        update_cfgvalue(cfg_id[3], cfg_key[2], cfg_value[2])  # 启用'门诊GY_SF_V4接口是否返回干预结果'
-
-    def test_GYSFV4_OLD_008(self):
+    # @pytest.fixture(autouse=True)   #测试用例级别的初始化方法，每个用例都会执行一次
+    # def update_config(self):
+    #     '''初始化：更改配置项'''
+    #     update_cfgvalue(cfg_id[3], cfg_key[2], cfg_value[2])  # 启用'门诊GY_SF_V4接口是否返回干预结果'
+    @pytest.mark.parametrize("update_config_one", [{'id': cfg_id[3], 'key': cfg_key[2], 'value': cfg_value[2]}],
+                             indirect=True)
+    def test_GYSFV4_OLD_008(self,update_config_one):
         self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_008', self.service_code, 7)
         self.test_rlt = get_drugnames(self.response_xml)
         print(self.test_rlt)
@@ -177,4 +191,4 @@ class Test_MergeOders():
         assert "头孢丙烯片与头孢丙烯分散片的作用机制相同。"  not in self.error_info
 
 if __name__ == '__main__':
-    pytest.main(["-s","test_gysfv4.py::Test_MergeOders::test_GYSFV4_OLD_009"])
+    pytest.main(["-s","test_gysfv4.py::Test_checksftasklist"])
