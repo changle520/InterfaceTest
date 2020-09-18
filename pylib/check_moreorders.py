@@ -3,7 +3,7 @@
 
 from common.operationxls import OperationdXls
 from common.interface import interfaceApi
-from common.operationxml import stringtoXML,get_allEle_change
+from common.operationxml import stringtoXML,get_allEle_change,update_xmlcontent
 
 
 def moreorders(xlspath,sheetname,testno,servicecode,col):
@@ -16,10 +16,14 @@ def moreorders(xlspath,sheetname,testno,servicecode,col):
 
     #发送请求
     for xml in xml_list:
+
+        #更改xml中的节点内容
+        xml_str=update_xmlcontent(xml)
         # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        # print(xml)
+        # print(xml_str)
         # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        response=interfaceApi(servicecode,xml)
+
+        response=interfaceApi(servicecode,xml_str)
 
     return response.text
 
@@ -34,11 +38,12 @@ def moreorders_havedel(xlspath,sheetname,testno,servicecode,col):
     #发送请求
     for i in range (len(xml_list)):
 
-        # print(xml)
+        # 更改xml中的节点内容
+        xml_str = update_xmlcontent(xml_list[i])
         if i==1:
-            response = interfaceApi('CANCEL_GROUP_DRUG_V4', xml_list[i])  #当循环第二次的时候将servicecode赋值：'CANCEL_GROUP_DRUG_V4'
+            response = interfaceApi('CANCEL_GROUP_DRUG_V4',xml_str)  #当循环第二次的时候将servicecode赋值：'CANCEL_GROUP_DRUG_V4'
         else:
-            response=interfaceApi(servicecode,xml_list[i])
+            response=interfaceApi(servicecode,xml_str)
 
     return response.text
 

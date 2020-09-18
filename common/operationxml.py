@@ -4,7 +4,7 @@
 import xml.etree.ElementTree as etree
 from common.operationxls import OperationdXls
 from config import check_tag
-
+from datetime import datetime,timedelta
 #定义一个全局变量，存放要获取的节点内容
 
 
@@ -12,6 +12,12 @@ from config import check_tag
 def stringtoXML(text_str):
     '''将字符串转换为xml对象'''
     return etree.fromstring(text_str)
+
+
+def tostring(xml_object):
+    '''将从xml文件获取的根节点转换为 xml字符串'''
+    xml_str=etree.tostring(xml_object,encoding='utf-8')
+    return bytes.decode(xml_str)
 
 def get_xmlobject(path):
     '''
@@ -67,13 +73,39 @@ def get_allEle_change(fele):
     rlt_list = []
     return get_allEle(rlt_list,fele)
 
+#修改节点的内容(
+def set_eleText(fele):
+        for ele in fele:
+            # print(ele)
+            if ele.tag in ['recipe_time','order_time',"order_valid_time"]:
+                ctime=datetime.now().strftime("%Y-%m-%d %H:%M:%S") #获取当前时间
+                ele.text=ctime
+            elif ele.tag=='order_invalid_time' and ele.text:
+                tomtime = datetime.now()+timedelta(days=1)  # 获取当前时间往后加一天
+                tomtime_str=tomtime.strftime("%Y-%m-%d %H:%M:%S")
+                ele.text=tomtime_str
+            set_eleText(ele)
+
+def update_xmlcontent(xml_str):
+    '''
+    将xml字符串解析成xml对象，修改对应的节点内容后，再转成xml字符串
+    :param xml_str:  xml字符串
+    :param cele: 要修改的节点名称
+    :return:
+    '''
+    xml_obj = stringtoXML(xml_str)
+    set_eleText(xml_obj)
+    return tostring(xml_obj)
 
 if __name__=='__main__':
-    # rxls = OperationdXls(r"C:\Users\ipharmacare\interface\InterfaceTest\data\统一接口自动化测试用例.xls")
-    # rxls.read_xls('4.0_old')
-    # xml = rxls.get_cellvalue(1, 7)
+    rxls = OperationdXls(r"C:\Users\ipharmacare\interface\InterfaceTest\data\统一接口自动化测试用例.xls")
+    rxls.read_xls('4.0_old')
+    xml = rxls.get_cellvalue(1, 7)
+    print(xml)
+    print(update_xmlcontent(xml))
+
     # print(get_elecontent(xml,'base','hospital_code'))
-    xml_obj=get_xmlobject("../data/innerIn/IN_test_opt_003_1599619328155_20200910161148386.txt")
-    print(xml_obj)
-    print(get_allEle_change(xml_obj))
+    # xml_obj=get_xmlobject("../data/innerIn/IN_test_opt_003_1599619328155_20200910161148386.txt")
+    # print(xml_obj)
+    # print(get_allEle_change(xml_obj))
 

@@ -4,7 +4,7 @@ from common.operationxls import OperationdXls
 from common.interface import interfaceApi
 from common.getfilename import getfilename
 from common.sshlinux import get_file
-from common.operationxml import get_xmlobject,get_allEle_change
+from common.operationxml import get_xmlobject,get_allEle_change,update_xmlcontent
 
 
 def check_file(xlspath,sheetname,testno,servicecode,type,col):
@@ -12,7 +12,11 @@ def check_file(xlspath,sheetname,testno,servicecode,type,col):
 
     #获取xml字符串
     rxls = OperationdXls(xlspath,sheetname)
-    xml_rlt = rxls.get_xml(testno,col)
+    xml_str = rxls.get_xml(testno,col)
+
+    #修改xml字符串中的节点内容
+    xml_rlt=update_xmlcontent(xml_str)
+    # print(xml_rlt)
     #发送请求
     interfaceApi(servicecode, xml_rlt)
 

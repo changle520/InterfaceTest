@@ -1,9 +1,9 @@
 #__author__:ipharmacare
 # 2020/9/10
 import paramiko
-from config import linux_port,username_linux,password_linux,ip
+from config import linux_port,username_linux,password_linux,ip,target_file
 
-def get_file(src,dct='../../data/innerIn/'):
+def get_file(src,dct=target_file):
     '''
     远程连接linux服务器，下载文件到本地
     args:

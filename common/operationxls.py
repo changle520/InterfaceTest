@@ -57,6 +57,7 @@ class OperationdXls():
         #遍历行，拿到对应的xml
         for num in range(self.rows):
             self.row_content=self.get_rowvalue(num)
+            # print(self.row_content)
             if self.row_content[0]==testno:
                 # print(self.row_content[col])
                 return self.row_content[col]

@@ -26,3 +26,7 @@ interface_path="data/interface/interface_unified/in_out_bak"
 
 #存放落地文件中要校验的字段
 check_tag=["drug_return_flag","despensing_num","order_status","recipe_status","order_status","drug_name","error_info"]
+
+testfile='../data/统一接口自动化测试用例.xls'
+target_file='../data/innerIn/'
+sheetname=['4.0_old','4.0_new']
