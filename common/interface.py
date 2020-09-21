@@ -92,5 +92,5 @@ if __name__ == '__main__':
     # xml_split = xml.split(',')
     # interfaceApi(service_code[0],xml_split[0])
     print(startAuditWork())
-    print(getAuditIptList()['data']['engineInfos'][0]['patientId'])
+    print(getAuditIptList())
 
