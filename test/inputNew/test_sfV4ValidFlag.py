@@ -3,13 +3,21 @@
 
 import pytest
 from pylib.check_sftask import check_sftask
-from config import testfile,sheetname
+from config import cfg_id,cfg_key,cfg_value,testfile,sheetname
+from common.interface import update_cfgvalue
 
+@pytest.fixture(scope="function",autouse=False)
+def update_config_one(request):
+    '''初始化：更改配置项:用于更改一个配置项'''
+    update_cfgvalue(request.param['id'], request.param['key'], request.param['value'])
+    print(request.param)
 
-def test_SFV4VALIDFLAG_NEW_001():
+@pytest.mark.parametrize("update_config_one", [{'id': cfg_id[2], 'key': cfg_key[2], 'value': cfg_value[2]}],
+                             indirect=True)
+def test_SFV4VALIDFLAG_NEW_001(update_config_one):
     test_rlt = check_sftask(testfile, sheetname[1], ['GYSFV4_NEW_003','SFV4VALIDFLAG_NEW_001'], ['GY_SF_V4','SF_V4_VALID_FLAG'], 7)
     print(test_rlt)
-    assert test_rlt[0]==test_rlt[1]
+    assert test_rlt!=[] and test_rlt[0]==test_rlt[1]
 
 
 if __name__ == '__main__':

@@ -6,19 +6,22 @@ system_port=9999
 interface_port=2002
 linux_port=22
 
-
+#业务系统的登录接口及登录账号
 login_api='syscenter/api/v1/currentUser'
 username='admin'
 password='ipharmacare'
 
+#服务器的账号
 username_linux = 'root'
 password_linux = 'ipharmacare'
 
+#用户中心配置项的数据
 cfg_api='sysConfig/update'
 cfg_key=['commons_old_version_interface_enable','sf_unicom_enable','filter_valid_data','gy_result_by_prescription_enable','gy_temporary_orders_effective_once_enable','gy_long_orders_valid_time_scope']
 cfg_value=['true','false','true,true','false,false']
-cfg_id=[27,29,47,61,1173,1587]
+cfg_id=[27,29,44,61,1173,1587,47]
 
+#统一接口相关
 interface_api='face'
 service_code=['GY_SF_V4','SF_V4_AUDIT_CENTER','SF_V4_VALID_FLAG']
 
@@ -27,6 +30,7 @@ interface_path="data/interface/interface_unified/in_out_bak"
 #存放落地文件中要校验的字段
 check_tag=["drug_return_flag","despensing_num","order_status","recipe_status","order_status","drug_name","error_info"]
 
+#测试用例文件相关
 testfile='../data/统一接口自动化测试用例.xls'
 target_file='../data/innerIn/'
 sheetname=['4.0_old','4.0_new']

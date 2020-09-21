@@ -77,7 +77,7 @@ class Test_MergeOders():
         self.test_rlt = get_drugnames(self.response_xml)
         print(self.test_rlt)
         self.drug_name = [v for k, v in self.test_rlt if k == 'drug_name']
-        assert "头孢丙烯分散片" in self.drug_name
+        assert "头孢丙烯分散片" not in self.drug_name
 
     @pytest.mark.parametrize("update_config_one",[{'id':cfg_id[3],'key':cfg_key[4],'value':cfg_value[1]}],indirect=True)
     def test_GYSFV4_NEW_009(self,update_config_one):

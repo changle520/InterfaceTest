@@ -12,7 +12,7 @@ from pylib.check_moreorders import moreorders,moreorders_havedel,get_drugnames
 def update_config_more():
     '''初始化：更改配置项:用于更改多个配置项'''
     update_cfgvalue(cfg_id[1], cfg_key[0], cfg_value[1])   #启用'是否打通审方'
-    update_cfgvalue(cfg_id[2], cfg_key[3], cfg_value[2])   # 禁用'过滤有效数据'
+    update_cfgvalue(cfg_id[2], cfg_key[2], cfg_value[3])   # 禁用'过滤有效数据'
 
 @pytest.fixture(scope="function",autouse=False)
 def update_config_one(request):
@@ -69,17 +69,6 @@ class Test_CheckFile():
         assert self.order_status==[0]
 
 
-class Test_checksftasklist():
-    '''校验审方的任务列表'''
-    type = {'opt': 'REAL_OPT', 'ipt': 'REAL_IPT'}
-    service_code = service_code[0]
-
-
-    @pytest.mark.parametrize("update_config_one", [{'id': cfg_id[2], 'key': cfg_key[2], 'value': cfg_value[0]}],
-                             indirect=True)
-    def test_GYSFV4_OLD_007(self,update_config_one):
-        self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_007', self.service_code, 7)
-        print(self.response_xml)
 
 class Test_check_threerequests():
     '''校验第3次请求返回的结果是否正确'''
@@ -87,11 +76,7 @@ class Test_check_threerequests():
     type = {'opt': 'REAL_OPT', 'ipt': 'REAL_IPT'}
     service_code = service_code[0]
 
-    # @pytest.fixture(autouse=True)   #测试用例级别的初始化方法，每个用例都会执行一次
-    # def update_config(self):
-    #     '''初始化：更改配置项'''
-    #     update_cfgvalue(cfg_id[3], cfg_key[2], cfg_value[2])  # 启用'门诊GY_SF_V4接口是否返回干预结果'
-    @pytest.mark.parametrize("update_config_one", [{'id': cfg_id[3], 'key': cfg_key[2], 'value': cfg_value[2]}],
+    @pytest.mark.parametrize("update_config_one", [{'id': cfg_id[6], 'key': cfg_key[3], 'value': cfg_value[2]}],
                              indirect=True)
     def test_GYSFV4_OLD_008(self,update_config_one):
         self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_008', self.service_code, 7)

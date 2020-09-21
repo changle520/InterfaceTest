@@ -39,11 +39,11 @@ def check_sftask(xlspath,sheetname,testno,servicecode,col):
         time.sleep(1)
         # 获取审方列表的内容
         testtwo_rlt = getAuditIptList(patientid_value)
-        # print(testtwo_rlt)
+        print(testtwo_rlt)
         rlt_patientid=testtwo_rlt['data']['engineInfos'][0]['patientId']
         return patientid_value,rlt_patientid
     else:
-        return False
+        return []
 
 
 
