@@ -9,10 +9,10 @@ from config import cfg_id,cfg_key,cfg_value
 def closeOldVersion():
     '''禁用老版本接口'''
     update_cfgvalue(cfg_id[0],cfg_key[0],cfg_value[1])
-    yield
-    openOldVersion()
-
-def openOldVersion():
-    '''开启老版本接口'''
-    update_cfgvalue(cfg_id[0], cfg_key[0], cfg_value[0])
-    print("清除操作完毕")
+#     yield
+#     openOldVersion()
+#
+# def openOldVersion():
+#     '''开启老版本接口'''
+#     update_cfgvalue(cfg_id[0], cfg_key[0], cfg_value[0])
+#     print("清除操作完毕")

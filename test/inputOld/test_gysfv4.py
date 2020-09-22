@@ -8,13 +8,14 @@ from config import cfg_id,cfg_key,cfg_value,testfile,sheetname
 from pylib.checkfile import check_file
 from pylib.check_moreorders import moreorders,moreorders_havedel,get_drugnames
 import allure
+import time
 
 @pytest.fixture(scope="class")
 def update_config_more():
     '''初始化：更改配置项:用于更改多个配置项'''
     update_cfgvalue(cfg_id[1], cfg_key[0], cfg_value[1])   #启用'是否打通审方'
     update_cfgvalue(cfg_id[2], cfg_key[2], cfg_value[3])   # 禁用'过滤有效数据'
-
+    time.sleep(2)
 
 @pytest.fixture(scope="function",autouse=False)
 def update_config_one(request):
@@ -135,6 +136,7 @@ class Test_MergeOders():
 @allure.feature("校验给下游的入参")
 @allure.story("老版本入参")
 @pytest.mark.usefixtures('update_config_more')
+@pytest.mark.run(order=1)
 class Test_CheckFile():
     '''验证统一接口传给业务系统的入参'''
 
