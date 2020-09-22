@@ -5,6 +5,7 @@ import pytest
 from pylib.check_sftask import check_sftask
 from config import cfg_id,cfg_key,cfg_value,testfile,sheetname
 from common.interface import update_cfgvalue
+import allure
 
 @pytest.fixture(scope="function",autouse=False)
 def update_config_one(request):
@@ -12,6 +13,8 @@ def update_config_one(request):
     update_cfgvalue(request.param['id'], request.param['key'], request.param['value'])
     print(request.param)
 
+@allure.feature("校验审方列表生成任务")
+@allure.story("老版本入参")
 @pytest.mark.parametrize("update_config_one", [{'id': cfg_id[2], 'key': cfg_key[2], 'value': cfg_value[2]}],
                              indirect=True)
 def test_SFV4VALIDFLAG_OLD_001(update_config_one):

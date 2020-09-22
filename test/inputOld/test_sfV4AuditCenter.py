@@ -4,8 +4,10 @@
 import pytest
 from pylib.checkfile import check_file
 from config import service_code,testfile,sheetname
+import allure
 
-
+@allure.feature("校验给下游的入参")
+@allure.story("老版本入参")
 class Test_CheckFile():
 
     type = {'opt': 'REAL_OPT', 'ipt': 'REAL_IPT'}
