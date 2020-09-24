@@ -2,7 +2,7 @@
 # 2020/9/18
 
 from common.operationxls import OperationdXls
-from common.interface import interfaceApi,startAuditWork,getAuditIptList
+from common.interface import interfaceApi,startAuditWork,getAuditIptList,endAuditWork
 from common.operationxml import update_xmlcontent
 from common.usebs4 import usebs4forxml
 import time,random
@@ -24,12 +24,15 @@ def check_sftask(xlspath,sheetname,testno,servicecode,col):
         xml_soup = usebs4forxml(xml_rlt, 'patient_id', patientid_value)
         xml_list.append(xml_soup.replace("\n",''))
 
+    #结束审方任务，将页面所有的待审任务都清空
+    endAuditWork()
+
+    # 开始审方,接收任务
+    startAuditWork()
+
     # 发送第一个请求-----GY_SF_V4
     # print(xml_list)
     interfaceApi(servicecode[0], xml_list[0])
-
-    #开始审方
-    startAuditWork()
 
     #获取审方列表的内容
     testone_rlt=getAuditIptList(patientid_value)

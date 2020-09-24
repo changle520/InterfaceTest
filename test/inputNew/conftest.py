@@ -2,7 +2,7 @@
 # 2020/9/9
 
 import pytest
-from common.interface import update_cfgvalue
+from common.interface import update_cfgvalue,endAuditWork
 from common.connectmysql import config_data
 from config import cfg_key,cfg_value
 
@@ -11,8 +11,8 @@ def closeOldVersion():
     '''禁用老版本接口'''
     update_cfgvalue(config_data['commons_old_version_interface_enable'],cfg_key[0],cfg_value[1])
     print('禁用老版本成功')
-#     yield
-#     openOldVersion()
+    yield
+    endAuditWork()
 #
 # def openOldVersion():
 #     '''开启老版本接口'''

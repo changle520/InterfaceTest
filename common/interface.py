@@ -71,6 +71,12 @@ def startAuditWork():
     response=requests.get(url,cookies=login())
     return response.json()
 
+def endAuditWork():
+    '''结束审方,清除所有的审方任务'''
+    url = f"http://{ip}:{system_port}/{endAudit_api}"
+    response=requests.get(url,cookies=login())
+    return response.json()
+
 def getAuditIptList(patientid=""):
     '''
     获取审方任务列表
