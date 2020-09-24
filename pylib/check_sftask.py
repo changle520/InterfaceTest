@@ -33,6 +33,7 @@ def check_sftask(xlspath,sheetname,testno,servicecode,col):
     #获取审方列表的内容
     testone_rlt=getAuditIptList(patientid_value)
     print(testone_rlt)
+    time.sleep(1)
     if testone_rlt['data']['engineInfos'] ==None: #如果审方列表没有生成对应的任务，继续发送第二个请求
         #发送第二个请求------SF_V4_VALID_FLAG
         interfaceApi(servicecode[1], xml_list[1])

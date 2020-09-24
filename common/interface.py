@@ -4,6 +4,7 @@
 import requests,json
 import hashlib
 from config import *
+import time
 
 def login():
     '''
@@ -45,6 +46,7 @@ def update_cfgvalue(id,key,value):
             }
     response=requests.post(url,data,cookies=login())
     print('配置项修改成功')
+    time.sleep(2)
     # print(response.json())
 
 

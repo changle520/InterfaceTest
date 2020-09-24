@@ -4,7 +4,7 @@
 from common.operationxls import OperationdXls
 from common.interface import interfaceApi
 from common.operationxml import stringtoXML,get_allEle_change,update_xmlcontent
-
+import time
 
 def moreorders(xlspath,sheetname,testno,servicecode,col):
     '''连续发送请求,servicecode一样'''
@@ -24,6 +24,7 @@ def moreorders(xlspath,sheetname,testno,servicecode,col):
         # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
         response=interfaceApi(servicecode,xml_str)
+        time.sleep(1)
 
     return response.text
 

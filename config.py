@@ -15,11 +15,17 @@ password='ipharmacare'
 username_linux = 'root'
 password_linux = 'ipharmacare'
 
+#统一接口数据库的相关配置
+mysql_host='10.1.1.118'
+mysql_port=3306
+mysql_username='yyuser'
+mysql_password='iPh@23ysq!'
+database='ipharmacare_pull'
+
 #用户中心配置项的数据
 cfg_api='sysConfig/update'
 cfg_key=['commons_old_version_interface_enable','sf_unicom_enable','filter_valid_data','gy_result_by_prescription_enable','gy_temporary_orders_effective_once_enable','gy_long_orders_valid_time_scope']
 cfg_value=['true','false','true,true','false,false']
-cfg_id=[27,29,44,61,1173,1587,47]
 
 #统一接口相关
 interface_api='face'

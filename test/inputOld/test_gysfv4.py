@@ -4,18 +4,17 @@
 import pytest
 from config import service_code
 from common.interface import update_cfgvalue
-from config import cfg_id,cfg_key,cfg_value,testfile,sheetname
+from common.connectmysql import config_data
+from config import cfg_key,cfg_value,testfile,sheetname
 from pylib.checkfile import check_file
 from pylib.check_moreorders import moreorders,moreorders_havedel,get_drugnames
 import allure
-import time
 
 @pytest.fixture(scope="class")
 def update_config_more():
     '''初始化：更改配置项:用于更改多个配置项'''
-    update_cfgvalue(cfg_id[1], cfg_key[0], cfg_value[1])   #启用'是否打通审方'
-    update_cfgvalue(cfg_id[2], cfg_key[2], cfg_value[3])   # 禁用'过滤有效数据'
-    time.sleep(2)
+    update_cfgvalue(config_data['sf_unicom_enable'], cfg_key[0], cfg_value[0])   #启用'是否打通审方'
+    update_cfgvalue(config_data['filter_valid_data'], cfg_key[2], cfg_value[3])   # 禁用'过滤有效数据'
 
 @pytest.fixture(scope="function",autouse=False)
 def update_config_one(request):
@@ -32,7 +31,7 @@ class Test_check_threerequests():
     type = {'opt': 'REAL_OPT', 'ipt': 'REAL_IPT'}
     service_code = service_code[0]
 
-    @pytest.mark.parametrize("update_config_one", [{'id': cfg_id[6], 'key': cfg_key[3], 'value': cfg_value[2]}],
+    @pytest.mark.parametrize("update_config_one", [{'id':config_data['gy_result_by_prescription_enable'], 'key': cfg_key[3], 'value': cfg_value[2]}],
                              indirect=True)
     def test_GYSFV4_OLD_008(self,update_config_one):
         self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_008', self.service_code, 7)
@@ -84,7 +83,7 @@ class Test_MergeOders():
         self.error_info = ",".join([v for k, v in self.test_rlt if k == 'error_info'])
         assert "头孢丙烯分散片" not in self.error_info
 
-    @pytest.mark.parametrize("update_config_one",[{'id':cfg_id[3],'key':cfg_key[4],'value':cfg_value[0]}],indirect=True)
+    @pytest.mark.parametrize("update_config_one",[{'id':config_data['gy_temporary_orders_effective_once_enable'],'key':cfg_key[4],'value':cfg_value[0]}],indirect=True)
     def test_GYSFV4_OLD_014(self,update_config_one):
         self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_014', self.service_code, 7)
         self.test_rlt = get_drugnames(self.response_xml)
@@ -92,7 +91,7 @@ class Test_MergeOders():
         self.error_info = ",".join([v for k, v in self.test_rlt if k == 'error_info'])
         assert "头孢丙烯分散片" not in self.error_info
 
-    @pytest.mark.parametrize("update_config_one",[{'id':cfg_id[3],'key':cfg_key[4],'value':cfg_value[1]}],indirect=True)
+    @pytest.mark.parametrize("update_config_one",[{'id':config_data['gy_temporary_orders_effective_once_enable'],'key':cfg_key[4],'value':cfg_value[1]}],indirect=True)
     def test_GYSFV4_OLD_015(self,update_config_one):
         self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_015', self.service_code, 7)
         self.test_rlt = get_drugnames(self.response_xml)
@@ -100,7 +99,7 @@ class Test_MergeOders():
         self.error_info = ",".join([v for k, v in self.test_rlt if k == 'error_info'])
         assert "头孢丙烯分散片"  in self.error_info
 
-    @pytest.mark.parametrize("update_config_one",[{'id':cfg_id[3],'key':cfg_key[4],'value':cfg_value[0]}],indirect=True)
+    @pytest.mark.parametrize("update_config_one",[{'id':config_data['gy_temporary_orders_effective_once_enable'],'key':cfg_key[4],'value':cfg_value[0]}],indirect=True)
     def test_GYSFV4_OLD_016(self,update_config_one):
         self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_016', self.service_code, 7)
         self.test_rlt = get_drugnames(self.response_xml)
@@ -108,7 +107,7 @@ class Test_MergeOders():
         self.error_info = ",".join([v for k, v in self.test_rlt if k == 'error_info'])
         assert "头孢丙烯分散片" not in self.error_info
 
-    @pytest.mark.parametrize("update_config_one",[{'id':cfg_id[3],'key':cfg_key[4],'value':cfg_value[1]}],indirect=True)
+    @pytest.mark.parametrize("update_config_one",[{'id':config_data['gy_temporary_orders_effective_once_enable'],'key':cfg_key[4],'value':cfg_value[1]}],indirect=True)
     def test_GYSFV4_OLD_017(self,update_config_one):
         self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_017', self.service_code, 7)
         self.test_rlt = get_drugnames(self.response_xml)
@@ -116,7 +115,7 @@ class Test_MergeOders():
         self.error_info = ",".join([v for k, v in self.test_rlt if k == 'error_info'])
         assert "头孢丙烯分散片" not in self.error_info
 
-    @pytest.mark.parametrize("update_config_one",[{'id':cfg_id[3],'key':cfg_key[4],'value':cfg_value[1]}],indirect=True)
+    @pytest.mark.parametrize("update_config_one",[{'id':config_data['gy_temporary_orders_effective_once_enable'],'key':cfg_key[4],'value':cfg_value[1]}],indirect=True)
     def test_GYSFV4_OLD_018(self,update_config_one):
         self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_018', self.service_code, 7)
         self.test_rlt = get_drugnames(self.response_xml)
@@ -124,7 +123,7 @@ class Test_MergeOders():
         self.error_info = ",".join([v for k, v in self.test_rlt if k == 'error_info'])
         assert "头孢丙烯分散片"  in self.error_info
 
-    @pytest.mark.parametrize("update_config_one",[{'id':cfg_id[5],'key':cfg_key[5],'value':420}],indirect=True)
+    @pytest.mark.parametrize("update_config_one",[{'id':config_data['gy_long_orders_valid_time_scope'],'key':cfg_key[5],'value':420}],indirect=True)
     def test_GYSFV4_OLD_019(self,update_config_one):
         '''就这一个用例要获取当前时间，待后面再完善'''
         self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_019', self.service_code, 7)
@@ -136,7 +135,7 @@ class Test_MergeOders():
 @allure.feature("校验给下游的入参")
 @allure.story("老版本入参")
 @pytest.mark.usefixtures('update_config_more')
-@pytest.mark.run(order=1)
+# @pytest.mark.run(order=1)
 class Test_CheckFile():
     '''验证统一接口传给业务系统的入参'''
 
@@ -187,4 +186,4 @@ class Test_CheckFile():
 
 
 if __name__ == '__main__':
-    pytest.main(["-s","test_gysfv4.py::Test_CheckFile"])
+    pytest.main(["-s","test_gysfv4.py::Test_MergeOders::test_GYSFV4_OLD_015"])
