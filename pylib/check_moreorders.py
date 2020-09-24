@@ -4,7 +4,9 @@
 from common.operationxls import OperationdXls
 from common.interface import interfaceApi
 from common.operationxml import stringtoXML,get_allEle_change,update_xmlcontent
+from common.usebs4 import usebs4forxml
 import time
+from datetime import datetime,timedelta
 
 def moreorders(xlspath,sheetname,testno,servicecode,col):
     '''连续发送请求,servicecode一样'''
@@ -23,6 +25,39 @@ def moreorders(xlspath,sheetname,testno,servicecode,col):
         # print(xml_str)
         # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
+        response=interfaceApi(servicecode,xml_str)
+        time.sleep(1)
+
+    return response.text
+
+def moreorders_invaild(xlspath,sheetname,testno,servicecode,col):
+    '''连续发送请求,失效时间配置项的测试'''
+
+    #获取xml字符串
+    rxls = OperationdXls(xlspath,sheetname)
+    xml = rxls.get_xml(testno,col)
+    xml_list=xml.split(",")   #将xml按逗号分隔
+
+    tomtime = datetime.now()  # 获取当前时间
+
+    #发送请求
+    for i in range(len(xml_list)):
+
+        #更改xml中的节点内容
+        xml_str = update_xmlcontent(xml_list[i])
+        if i==0:
+            #修改失效时间小于当前时间5分钟以内
+            invaild_time=tomtime-timedelta(minutes=4)
+            invaild_time_str = invaild_time.strftime("%Y-%m-%d %H:%M:%S")
+            xml_str=usebs4forxml(xml_str,'order_invalid_time',invaild_time_str)
+        if i==2:
+            #修改失效时间小于当前时间10分钟以上
+            invaild_time = tomtime - timedelta(minutes=11)
+            invaild_time_str = invaild_time.strftime("%Y-%m-%d %H:%M:%S")
+            print(invaild_time_str)
+            xml_str = usebs4forxml(xml_str, 'order_invalid_time', invaild_time_str)
+        # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        # print(xml_str)
         response=interfaceApi(servicecode,xml_str)
         time.sleep(1)
 

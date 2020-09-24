@@ -5,16 +5,17 @@ from common.operationxls import OperationdXls
 from common.interface import interfaceApi,startAuditWork,getAuditIptList
 from common.operationxml import update_xmlcontent
 from common.usebs4 import usebs4forxml
-import time
+import time,random
 
 def check_sftask(xlspath,sheetname,testno,servicecode,col):
     """校验审方任务列表的数据是否生成"""
 
     # 获取xml字符串
     rxls = OperationdXls(xlspath, sheetname)
-    id = str(time.time())
+    # id = str(time.time())
+    id=random.randrange(111111111,999999999)
     xml_list=[]
-    patientid_value = id
+    patientid_value = str(id)
     for i in range(len(testno)):
         xml_str = rxls.get_xml(testno[i],col)
         # 修改xml字符串中的节点内容

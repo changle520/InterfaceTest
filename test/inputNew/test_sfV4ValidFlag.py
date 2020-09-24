@@ -16,6 +16,7 @@ def update_config_one(request):
     print(request.param)
     yield
     update_cfgvalue(request.param['id'], request.param['key'], request.param['value_re'])  #清除
+    print(request.param)
 
 @allure.feature("校验审方列表生成任务")
 @allure.story("新版本入参")

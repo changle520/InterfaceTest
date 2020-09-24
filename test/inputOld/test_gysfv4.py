@@ -7,7 +7,7 @@ from common.interface import update_cfgvalue
 from common.connectmysql import config_data
 from config import cfg_key,cfg_value,testfile,sheetname
 from pylib.checkfile import check_file
-from pylib.check_moreorders import moreorders,moreorders_havedel,get_drugnames
+from pylib.check_moreorders import moreorders,moreorders_havedel,moreorders_invaild,get_drugnames
 import allure
 
 @pytest.fixture(scope="class")
@@ -125,8 +125,7 @@ class Test_MergeOders():
 
     @pytest.mark.parametrize("update_config_one",[{'id':config_data['gy_long_orders_valid_time_scope'],'key':cfg_key[5],'value':420}],indirect=True)
     def test_GYSFV4_OLD_019(self,update_config_one):
-        '''就这一个用例要获取当前时间，待后面再完善'''
-        self.response_xml = moreorders(testfile, sheetname[0], 'GYSFV4_OLD_019', self.service_code, 7)
+        self.response_xml = moreorders_invaild(testfile, sheetname[0], 'GYSFV4_OLD_019', self.service_code, 7)
         self.test_rlt = get_drugnames(self.response_xml)
         print(self.test_rlt)
         self.error_info = ",".join([v for k, v in self.test_rlt if k == 'error_info'])

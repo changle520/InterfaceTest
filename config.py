@@ -31,7 +31,7 @@ cfg_value=['true','false','true,true','false,false']
 interface_api='face'
 service_code=['GY_SF_V4','SF_V4_AUDIT_CENTER','SF_V4_VALID_FLAG']
 
-interface_path="data/interface/interface_unified/in_out_bak"
+interface_path="data/data/interface_bak/interface_unified/in_out_bak"
 
 #存放落地文件中要校验的字段
 check_tag=["drug_return_flag","despensing_num","order_status","recipe_status","order_status","drug_name","error_info"]
